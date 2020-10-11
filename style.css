@@ -19,7 +19,8 @@ body{
 	color: #fff;
 	border: 0px;
 	border-radius: 3px;
-	padding: 20px;
+    padding: 20px;
+    display: inline-block;
 	cursor: pointer;
 	margin-bottom: 20px;
 }
