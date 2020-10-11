@@ -1,5 +1,24 @@
 (function(){
   // Functions
+
+  //COUNTDOWN FUNCTION
+  const deadline = '2100-12-31';
+  function getTimeRemaining(endtime){
+    const total = Date.parse(endtime) - Date.parse(new Date());
+    const seconds = Math.floor( (total/1000) % 60);
+    const minutes = Math.floor( (total/1000/60) % 60);
+    const hours = Math.floor( (total/(1000*60*60)) % 24);
+    const days = Math.floor( total/(1000*60*60*24));
+
+    return{
+      total,
+      days,
+      hours,
+      minutes,
+      seconds
+    };
+  }
+  //
   function buildQuiz(){
     // variable to store the HTML output
     const output = [];
