@@ -47,8 +47,7 @@ function buildQuiz(){
       let numCorrect=0;
 
       //FOR EACH QUESTION
-      myQuestions.forEach(
-          (currentQuestion, questionNumber) => {
+      myQuestions.forEach((currentQuestion, questionNumber) => {
               //FIND SELECTED ANSWER
               const answerContainer = answerContainers[questionNumber];
               const selector = `input[name=question${questionNumber}]:checked`;
@@ -69,6 +68,32 @@ function buildQuiz(){
           });
           //SHOW TOTAL CORRECT ANSWERS OUT OF THE QUIZ
           resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+}
+//FUNCTION FOR THE SLIDES TO OPERATE
+function showSlide(n) {
+  slides[currentSlide].classList.remove('active-slide');
+  slides[n].classList.add('active-slide');
+  currentSlide = n;
+  if (currentSlide === 0){
+    previousButton.style.display = 'none';
+  } else{
+    previousButton.style.display = 'inline-block';
+  }
+  if(currentSlide === slides.length-1){
+    nextButton.style.display = 'none';
+    submitButton.style.display = 'inline-block';
+  }else{
+    nextButton.style.display = 'inline-block';
+    submitButton.style.display =  'none';
+  }
+}
+//FUNCTION TO NAVIGATE THE 'NEXT' SLIDE BY +1
+function showNextSlide() {
+  showSlide(currentSlide + 1);
+}
+//FUNCTION TO NAVIGATE THE 'PREVIOUS' SLIDE BY -1
+function showPreviousSlide() {
+  showSlide(currentSlide -1);
 }
 
 
@@ -182,6 +207,20 @@ const myQuestions = [
 //DISPLAY THE QUIZ
 buildQuiz();
 
-//ON 'SUBMIT' RENDER RESULTS
+//PAGINATION
+const previousButton = document.getElementById("previous");
+const nextButton = document.getElementById("next");
+const slides = document.querySelectorAll(".slide");
+let currentSlide = 0;
+
+
+//SHOW FIRST SLIDE
+showSlide(currentSlide);
+
+//EVENT LISTENERS
 submitButton.addEventListener('click', showResults);
+//EVENT LISTENER FOR THE 'PREVIOUS' BUTTON
+previousButton.addEventListener("click", showPreviousSlide);
+//EVENT LISTENER FOR THE 'NEXT' BUTTON
+nextButton.addEventListener("click", showNextSlide);
 
