@@ -1,0 +1,183 @@
+// FUNCTIONS FOR FILLING OUT THE QUIZ DOCUMENT
+function buildQuiz(){
+    // variable to store the HTML output
+    const output = [];
+  
+    // for each question...
+    myQuestions.forEach(
+      (currentQuestion, questionNumber) => {
+  
+        // variable to store the list of possible answers
+        const answers = [];
+  
+        // and for each available answer...
+        for(letter in currentQuestion.answers){
+  
+          // ...add an HTML radio button
+          answers.push(
+            `<label>
+              <input type="radio" name="question${questionNumber}" value="${letter}">
+              ${letter} :
+              ${currentQuestion.answers[letter]}
+            </label>`
+          );
+        }
+  
+        // add this question and its answers to the output
+        output.push(
+          `<div class="question"> ${currentQuestion.question} </div>
+          <div class="answers"> ${answers.join('')} </div>`
+        );
+      }
+    );
+  
+    // finally combine our output list into one string of HTML and put it on the page
+    quizContainer.innerHTML = output.join('');
+  }
+
+  function showResults() {
+      //GATHER ANSWER CONTAINERS FROM OUR QUIZ
+      const answerContainers = quizContainer.querySelectorAll('.answers');
+
+      //KEEP TRACK FOR THE USERS ANSWERS
+      let numCorrect=0;
+
+      //FOR EACH QUESTION
+      myQuestions.forEach(
+          (currentQuestion, questionNumber) => {
+              //FIND SELECTED ANSWER
+              const answerContainer = answerContainers[questionNumber];
+              const selector = `input[name=question${questionNumber}]:checked`;
+              const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+              //IF ANSWER IS CORRECT
+              if(userAnswer === currentQuestion.correctAnswer){
+                  //ADD TO CORRECT ANSWER TOTAL
+                  numCorrect++;
+                  //COLORS ANSWERS GREEN
+                  answerContainers[questionNumber].style.color = 'lightgreen';
+                  //IF ANSWER IS WRONG OR BLANK
+              }else{
+                //COLOR ANSWERS RED
+                answerContainers[questionNumber].style.color = 'red';
+              }
+              
+          });
+          //SHOW TOTAL CORRECT ANSWERS OUT OF THE QUIZ
+          resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+}
+
+
+// VARIABLES USED TO STORE INFORMATION IN THE 'QUIZ', 'RESULTS', & 'SUBMIT' DIVS
+const quizContainer = document.getElementById("quiz");
+const resultsContainer = document.getElementById("results");
+const submitButton = document.getElementById("submit");
+
+//THE ARRAY OF QUIZ QUESTIONS
+const myQuestions = [
+    {
+        question: "Who invented JavaScript?",
+    answers: {
+      a: "Douglas Crockford",
+      b: "Sheryl Sandberg",
+      c: "Brendan Eich"
+    },
+    correctAnswer: "c"
+  },
+  {
+    question: "Which one of these is a JavaScript package manager?",
+    answers: {
+      a: "Node.js",
+      b: "TypeScript",
+      c: "npm"
+    },
+    correctAnswer: "c"
+  },
+  {
+    question: "Which tool can you use to ensure code quality?",
+    answers: {
+      a: "Angular",
+      b: "jQuery",
+      c: "RequireJS",
+      d: "ESLint"
+    },
+    correctAnswer: "d"
+    }, 
+    {
+      question: "What is the proper format for an 'Arrow Function' in JS?",
+      answers: {
+        a: `hello = () => {}`,
+        b:`function() => {}`,
+        c:`() => {}`,
+        d:`{} (=>) = `
+      },
+      correctAnswer: "a"
+    },
+      {
+        question: "How do you navigate through a JS object within the code?" ,
+        answers: {
+          a:"dot notation",
+          b:"With the GUI",
+          c:"With a 'GET' command",
+          d:"With a GPS"
+        },
+        correctAnswer: "a"
+      },
+        {
+          question: "Which function rounds the given numerical value up?",
+          answers: {
+            a: "Math.floor()",
+            b: "Math.ceil()",
+            c: "Math.up()",
+            d:"Math.sqrt()"
+          },
+          correctAnswer: "b"
+        },
+          {
+            question: "Which function directly selects the `ID` of a div without using the `#`?",
+            answers: {
+              a: "querySelector",
+              b: "querySelectorAll",
+              c: "getElementByClass",
+              d: "getElementByID"
+            },
+            correctAnswer: "d"
+          },
+            {
+              question: "Which function rounds a given numerical value down?",
+              answers: {
+                a: "Math.ceil()",
+                b: "Math.sqrt()",
+                c: "Math.rnd()",
+                d: "Math.floor()"
+              },
+              correctAnswer: "d"
+            },
+              {
+                question: "When using the `setTimeout()` function, what is the base measurement of time?" ,
+                answers: {
+                  a:"Milliseconds",
+                  b:"Microseconds",
+                  c:"Macroseconds",                  
+                  d:"Hours"
+                },
+                correctAnswer: "a"
+              },
+                {
+                  question: "Among the given answers, which is recognized as a JS boolean value?",
+                  answers: {
+                    a: "Truthy",
+                    b: "0",
+                    c: "Falsey",
+                    d: "True"
+                  },
+                  correctAnswer: "d"
+    }
+]
+
+//DISPLAY THE QUIZ
+buildQuiz();
+
+//ON 'SUBMIT' RENDER RESULTS
+submitButton.addEventListener('click', showResults);
+
