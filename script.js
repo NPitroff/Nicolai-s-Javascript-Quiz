@@ -230,12 +230,11 @@
                     correctAnswer: "d"
       }
   ]
-  var localStorageName = "JSQuiz";
-  var highscore;
-
+  
   //Local Storage & High Score
-  highscore = localStorage.getItem(localStorageName) == null ? 0:
-              localStorage.getItem(localStorageName);
+  
+  //High Score Function
+  
 
  //Kick things off
   buildQuiz();
