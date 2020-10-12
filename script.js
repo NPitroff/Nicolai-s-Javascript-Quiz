@@ -1,28 +1,34 @@
 (function(){
   // Functions
+//  var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
+  
 
-  //COUNTDOWN FUNCTION
-  const deadline = '2100-12-31';
-  function getTimeRemaining(endtime){
-    const total = Date.parse(endtime) - Date.parse(new Date());
-    const seconds = Math.floor( (total/1000) % 60);
-    const minutes = Math.floor( (total/1000/60) % 60);
-    const hours = Math.floor( (total/(1000*60*60)) % 24);
-    const days = Math.floor( total/(1000*60*60*24));
-
-    return{
-      total,
-      days,
-      hours,
-      minutes,
-      seconds
-    };
-  }
-  //
   function buildQuiz(){
     // variable to store the HTML output
     const output = [];
+  
+    //COUNTDOWN FUNCTION
+    var seconds =20;
+    var seconds = document.getElementById("timer").textContent;
 
+    var countdown = setInterval(function() {
+      seconds--;
+      document.getElementById("timer").textContent = seconds;
+      if(seconds <= 0) clearInterval(countdown);
+       ;
+    }, 1000);
+
+    
+
+    // CLICKING SUBMIT AFTER TIMER REACHES ZERO
+    window.onload = function() {
+      setTimeout(function() {
+        document.getElementById("submit").click();
+      },20000)
+    }
+
+
+   //
     // for each question...
     myQuestions.forEach(
       (currentQuestion, questionNumber) => {
@@ -224,6 +230,12 @@
                     correctAnswer: "d"
       }
   ]
+  var localStorageName = "JSQuiz";
+  var highscore;
+
+  //Local Storage & High Score
+  highscore = localStorage.getItem(localStorageName) == null ? 0:
+              localStorage.getItem(localStorageName);
 
  //Kick things off
   buildQuiz();
